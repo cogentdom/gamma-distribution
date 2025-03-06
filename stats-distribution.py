@@ -2,10 +2,24 @@ import numpy as np
 import tensorflow as tf
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import seaborn as sns
+import math  # Add math import
+import matplotlib.pyplot as plt
+
+
+# plt.style.use('ggplot')
+# plt.rc('patch', force_edgecolor=True,edgecolor='black')
+# plt.rc('hist', bins='auto')
+# sns.set_style("darkgrid")
 
 # Set random seeds for reproducibility
 np.random.seed(42)
 tf.random.set_seed(42)
+
+# Set Seaborn style
+# sns.set_theme(style="whitegrid")
+# Get the current Seaborn color palette
+colors = sns.color_palette("Set2", 3).as_hex()
 
 class DistributionComparison:
     def __init__(self, sample_size=1000):
@@ -37,38 +51,41 @@ class DistributionComparison:
     
     def create_dashboard(self):
         """Create an interactive Plotly dashboard"""
-        # Create subplots
+        # Create subplots with Seaborn-inspired styling
         fig = make_subplots(
             rows=2, cols=2,
             subplot_titles=('Empirical Distributions', 'Theoretical PDFs/PMFs',
                           'Distribution Statistics', 'KL Divergence Matrix'),
             specs=[[{"type": "histogram"}, {"type": "scatter"}],
                   [{"type": "table"}, {"type": "heatmap"}]],
-            horizontal_spacing=0.15,  # Increase spacing between columns
-            vertical_spacing=0.17     # Increase spacing between rows
+            horizontal_spacing=0.15,
+            vertical_spacing=0.17
         )
         
-        # Plot 1: Empirical distributions (histograms)
+        # Plot 1: Empirical distributions with Seaborn colors
         fig.add_trace(
             go.Histogram(x=self.gamma, name='Gamma', opacity=0.75,
-                        nbinsx=30, histnorm='probability density',
+                        nbinsx=15, histnorm='probability density',
+                        marker_color=colors[0],
                         showlegend=True),
             row=1, col=1
         )
         fig.add_trace(
             go.Histogram(x=self.exp, name='Exponential', opacity=0.75,
-                        nbinsx=30, histnorm='probability density',
+                        nbinsx=15, histnorm='probability density',
+                        marker_color=colors[1],
                         showlegend=True),
             row=1, col=1
         )
         fig.add_trace(
             go.Histogram(x=self.poisson, name='Poisson', opacity=0.75,
-                        nbinsx=30, histnorm='probability density',
+                        nbinsx=15, histnorm='probability density',
+                        marker_color=colors[2],
                         showlegend=True),
             row=1, col=1
         )
         
-        # Plot 2: Theoretical PDFs/PMFs
+        # Plot 2: Theoretical PDFs/PMFs with Seaborn colors
         x = np.linspace(0, 15, 100)
         x_poisson = np.arange(0, 15)
         
@@ -78,91 +95,100 @@ class DistributionComparison:
         
         fig.add_trace(
             go.Scatter(x=x, y=gamma_pdf, name='Gamma PDF',
-                      line=dict(color='blue'),
+                      line=dict(color=colors[0], width=3),
                       showlegend=True),
             row=1, col=2
         )
         fig.add_trace(
             go.Scatter(x=x, y=exp_pdf, name='Exponential PDF',
-                      line=dict(color='red'),
+                      line=dict(color=colors[1], width=3),
                       showlegend=True),
             row=1, col=2
         )
         fig.add_trace(
             go.Scatter(x=x_poisson, y=poisson_pmf, name='Poisson PMF',
-                      line=dict(color='green'),
+                      line=dict(color=colors[2], width=3),
                       showlegend=True),
             row=1, col=2
         )
         
-        # Plot 3: Statistics Table
+        # Plot 3: Statistics Table with Seaborn-inspired colors
         stats_data = self._get_statistics_table_data()
         fig.add_trace(
             go.Table(
                 header=dict(
                     values=['Distribution', 'Mean', 'Variance', 'Skewness', 'Kurtosis'],
-                    fill_color='paleturquoise',
+                    # fill_color=sns.color_palette("light:blue", n_colors=1).as_hex()[0],
                     align='left',
-                    height=40,  # Adds vertical padding
-                    font=dict(size=13),  # Optional: increase font size
-                    line=dict(width=0),  # Remove cell borders
-                    fill=dict(color='paleturquoise'),
-                      # Add top margin of 20 pixels
+                    height=40,
+                    font=dict(size=13),
+                    line=dict(width=0)
                 ),
                 cells=dict(
                     values=stats_data,
-                    fill_color='lavender',
+                    # fill_color=sns.color_palette("light:blue", n_colors=2).as_hex()[1],
                     align='left',
-                    height=30,  # Adds vertical padding
-                    
+                    height=30
                 ),
-                # margin=dict(t=20),
-                columnwidth=[150, 100, 100, 100, 100] # Adjust column widths
+                columnwidth=[150, 100, 100, 100, 100]
             ),
             row=2, col=1
         )
         
-        # Plot 4: KL Divergence Heatmap
+        # Plot 4: KL Divergence Heatmap with Seaborn colors
         kl_matrix, labels = self._get_kl_divergence_matrix()
         fig.add_trace(
             go.Heatmap(
                 z=kl_matrix,
                 x=labels,
                 y=labels,
-                colorscale='Viridis',
+                colorscale='Earth',
                 showscale=True
             ),
             row=2, col=2
         )
         
-        # Update layout with improved legend formatting
+        # Update layout with Seaborn-inspired styling
         fig.update_layout(
             height=1400,
             width=1400,
             showlegend=True,
             title_text="Distribution Analysis Dashboard",
-            title_x=0.5,  # Center the title
+            title_x=0.5,
+            plot_bgcolor='white',
+            paper_bgcolor='white',
             legend=dict(
                 yanchor="top",
-                y=1.1,        # Position above the plots
+                y=1.1,
                 xanchor="center",
-                x=0.5,        # Center horizontally
-                orientation="h",  # Horizontal orientation
-                bgcolor="rgba(255, 255, 255, 0.8)",  # Semi-transparent background
-                bordercolor="rgba(0, 0, 0, 0.3)",    # Light border
+                x=0.5,
+                orientation="h",
+                bgcolor="rgba(255, 255, 255, 0.8)",
+                # bordercolor=sns.color_palette("gray")[2],
                 borderwidth=1,
                 font=dict(size=12),
-                itemsizing="constant"  # Consistent item sizes
+                itemsizing="constant"
             ),
-            # Update margins to accommodate the legend
             margin=dict(t=0, l=10, r=10, b=0)
         )
         
-        # Update axes labels and formatting
-        fig.update_xaxes(title_text="Value", row=1, col=1)
-        fig.update_xaxes(title_text="Value", row=1, col=2)
-        fig.update_yaxes(title_text="Density", row=1, col=1)
-        fig.update_yaxes(title_text="Probability", row=1, col=2)
+        # Update axes with Seaborn-style grid
+        fig.update_xaxes(
+            showgrid=True,
+            gridwidth=1,
+            # gridcolor=sns.color_palette("gray")[1],
+            title_text="Value",
+            title_font=dict(size=12),
+            tickfont=dict(size=10)
+        )
+        
+        fig.update_yaxes(
+            showgrid=True,
+            gridwidth=1,
+            # gridcolor=sns.color_palette("gray")[1],
+            title_font=dict(size=12),
+            tickfont=dict(size=10)
+        )
         
         # Add descriptive annotations
         descriptions = [
@@ -292,7 +318,7 @@ class DistributionComparison:
     def _gamma_pdf(self, x, shape, scale):
         """Compute gamma PDF"""
         return (x**(shape-1) * np.exp(-x/scale) / 
-                (scale**shape * np.math.gamma(shape)))
+                (scale**shape * math.gamma(shape)))
     
     def _exponential_pdf(self, x, scale):
         """Compute exponential PDF"""
@@ -300,7 +326,7 @@ class DistributionComparison:
     
     def _poisson_pmf(self, k, lambda_):
         """Compute Poisson PMF"""
-        return np.exp(-lambda_) * lambda_**k / np.array([np.math.factorial(int(ki)) for ki in k])
+        return np.exp(-lambda_) * lambda_**k / np.array([math.factorial(int(ki)) for ki in k])
     
     def _calculate_skewness(self, x):
         """Calculate the skewness of a distribution"""
