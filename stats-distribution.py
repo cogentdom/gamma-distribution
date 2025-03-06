@@ -45,7 +45,7 @@ class DistributionComparison:
             specs=[[{"type": "histogram"}, {"type": "scatter"}],
                   [{"type": "table"}, {"type": "heatmap"}]],
             horizontal_spacing=0.15,  # Increase spacing between columns
-            vertical_spacing=0.12     # Increase spacing between rows
+            vertical_spacing=0.17     # Increase spacing between rows
         )
         
         # Plot 1: Empirical distributions (histograms)
@@ -137,8 +137,8 @@ class DistributionComparison:
         
         # Update layout with improved legend formatting
         fig.update_layout(
-            height=1000,
-            width=1200,
+            height=1400,
+            width=1400,
             showlegend=True,
             title_text="Distribution Analysis Dashboard",
             title_x=0.5,  # Center the title
@@ -155,7 +155,7 @@ class DistributionComparison:
                 itemsizing="constant"  # Consistent item sizes
             ),
             # Update margins to accommodate the legend
-            margin=dict(t=20, l=80, r=80, b=10)
+            margin=dict(t=0, l=10, r=10, b=0)
         )
         
         # Update axes labels and formatting
@@ -167,13 +167,13 @@ class DistributionComparison:
         # Add descriptive annotations
         descriptions = [
             dict(
-                x=0.02, y=1.2,
+                x=0.02, y=0.51,  # Moved down slightly
                 xref="paper", yref="paper",
                 text=(
                     "<b>Distribution Characteristics:</b><br>" +
-                    "• <b>Gamma (α=2, β=2):</b> Right-skewed, continuous distribution. " +
+                    "• <b>Gamma (α=2, β=2):</b> Right-skewed, continuous distribution.<br> " +
                     "Shows a peak and long right tail. Used for modeling waiting times and positive-valued data.<br>" +
-                    "• <b>Exponential (λ=0.5):</b> Special case of Gamma. Memoryless property, constant hazard rate. " +
+                    "• <b>Exponential (λ=0.5):</b> Special case of Gamma. Memoryless property, constant hazard rate.<br> " +
                     "Models time between events.<br>" +
                     "• <b>Poisson (λ=5):</b> Discrete distribution for count data. Models number of events in fixed interval."
                 ),
@@ -186,7 +186,7 @@ class DistributionComparison:
                 borderpad=4
             ),
             dict(
-                x=0.02, y=0.48,
+                x=0.95, y=0.52,  # Moved to right side and down
                 xref="paper", yref="paper",
                 text=(
                     "<b>Distribution Comparisons:</b><br>" +
@@ -203,7 +203,7 @@ class DistributionComparison:
                 borderpad=4
             ),
             dict(
-                x=0.02, y=-0.05,
+                x=0.22, y=0.25,  # Adjusted for bottom left
                 xref="paper", yref="paper",
                 text=(
                     "<b>Statistical Measures:</b><br>" +
@@ -220,7 +220,7 @@ class DistributionComparison:
                 borderpad=4
             ),
             dict(
-                x=0.52, y=-0.05,
+                x=0.22, y=0.15,  # Adjusted for bottom right
                 xref="paper", yref="paper",
                 text=(
                     "<b>KL Divergence Matrix:</b><br>" +
@@ -244,7 +244,7 @@ class DistributionComparison:
         
         # Update margins to accommodate annotations
         fig.update_layout(
-            margin=dict(t=150, l=80, r=80, b=150),  # Increased top and bottom margins
+            margin=dict(t=0, l=0, r=0, b=0),  # Adjusted margins for better spacing
         )
         
         return fig
