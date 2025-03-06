@@ -3,7 +3,7 @@ import tensorflow as tf
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import seaborn as sns
-import math  # Add math import
+import math
 import matplotlib.pyplot as plt
 
 
@@ -19,7 +19,7 @@ tf.random.set_seed(42)
 # Set Seaborn style
 # sns.set_theme(style="whitegrid")
 # Get the current Seaborn color palette
-colors = sns.color_palette("Set2", 3).as_hex()
+colors = sns.color_palette("Set2", 6).as_hex()
 
 class DistributionComparison:
     def __init__(self, sample_size=1000):
@@ -118,15 +118,18 @@ class DistributionComparison:
             go.Table(
                 header=dict(
                     values=['Distribution', 'Mean', 'Variance', 'Skewness', 'Kurtosis'],
-                    # fill_color=sns.color_palette("light:blue", n_colors=1).as_hex()[0],
+                    fill_color=colors[2],
                     align='left',
-                    height=40,
+                    height=25,
                     font=dict(size=13),
                     line=dict(width=0)
                 ),
                 cells=dict(
                     values=stats_data,
-                    # fill_color=sns.color_palette("light:blue", n_colors=2).as_hex()[1],
+                    fill_color='white',
+                    # showgrid=True,
+                    # gridwidth=1,
+                    # gridcolor='lightgrey',
                     align='left',
                     height=30
                 ),
@@ -142,7 +145,7 @@ class DistributionComparison:
                 z=kl_matrix,
                 x=labels,
                 y=labels,
-                colorscale='Earth',
+                colorscale='darkmint',
                 showscale=True
             ),
             row=2, col=2
@@ -164,7 +167,7 @@ class DistributionComparison:
                 x=0.5,
                 orientation="h",
                 bgcolor="rgba(255, 255, 255, 0.8)",
-                # bordercolor=sns.color_palette("gray")[2],
+                # bordercolor=sns.color_palette("pastel", 3).as_hex()[2],
                 borderwidth=1,
                 font=dict(size=12),
                 itemsizing="constant"
@@ -176,7 +179,7 @@ class DistributionComparison:
         fig.update_xaxes(
             showgrid=True,
             gridwidth=1,
-            # gridcolor=sns.color_palette("gray")[1],
+            gridcolor='lightgrey',
             title_text="Value",
             title_font=dict(size=12),
             tickfont=dict(size=10)
@@ -185,7 +188,7 @@ class DistributionComparison:
         fig.update_yaxes(
             showgrid=True,
             gridwidth=1,
-            # gridcolor=sns.color_palette("gray")[1],
+            gridcolor='lightgrey',
             title_font=dict(size=12),
             tickfont=dict(size=10)
         )
