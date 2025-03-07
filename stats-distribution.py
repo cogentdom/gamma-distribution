@@ -7,17 +7,10 @@ import math
 import matplotlib.pyplot as plt
 
 
-# plt.style.use('ggplot')
-# plt.rc('patch', force_edgecolor=True,edgecolor='black')
-# plt.rc('hist', bins='auto')
-# sns.set_style("darkgrid")
-
 # Set random seeds for reproducibility
 np.random.seed(42)
 tf.random.set_seed(42)
 
-# Set Seaborn style
-# sns.set_theme(style="whitegrid")
 # Get the current Seaborn color palette
 colors = sns.color_palette("Set2", 6).as_hex()
 

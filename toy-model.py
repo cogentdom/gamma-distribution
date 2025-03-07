@@ -4,7 +4,7 @@ import tensorflow_probability as tfp
 
 # Set random seeds
 np.random.seed(42)
-tf.random.set_seed(42)
+# tf.random.set_seed(42)
 
 # Generate random samples from different distributions
 gamma_sample = np.random.gamma(shape=2.0, scale=2.0, size=1000)  # Gamma distribution with shape=2, scale=2
@@ -38,7 +38,7 @@ ax1.set_xlabel('Value')
 ax1.set_ylabel('Density')
 ax1.legend()
 
-ax2.hist(tf_gamma_sample, bins=30, density=True, alpha=0.7, color='red', label='TensorFlow')
+ax2.hist(tf_gamma_sample.numpy(), bins=30, density=True, alpha=0.7, color='red', label='TensorFlow')
 ax2.set_title('TensorFlow Gamma Distribution')
 ax2.set_xlabel('Value')
 ax2.set_ylabel('Density')
@@ -57,7 +57,7 @@ ax3.set_xlabel('Value')
 ax3.set_ylabel('Density')
 ax3.legend()
 
-ax4.hist(tf_exp_sample, bins=30, density=True, alpha=0.7, color='red', label='TensorFlow')
+ax4.hist(tf_exp_sample.numpy(), bins=30, density=True, alpha=0.7, color='red', label='TensorFlow')
 ax4.set_title('TensorFlow Exponential Distribution')
 ax4.set_xlabel('Value')
 ax4.set_ylabel('Density')
@@ -75,7 +75,7 @@ ax5.set_xlabel('Value')
 ax5.set_ylabel('Density')
 ax5.legend()
 
-ax6.hist(tf_poisson_sample, bins=30, density=True, alpha=0.7, color='red', label='TensorFlow')
+ax6.hist(tf_poisson_sample.numpy(), bins=30, density=True, alpha=0.7, color='red', label='TensorFlow')
 ax6.set_title('TensorFlow Poisson Distribution')
 ax6.set_xlabel('Value')
 ax6.set_ylabel('Density')
