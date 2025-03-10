@@ -16,6 +16,6 @@ mapped_dict = {x: y for x in list1 for y in list2}
 print("Mapped dictionary:", mapped_dict)
 
 # Create a set of unique elements from list1
-unique_set = set(list1)`
-
+unique_set = set(list1)
+print("Unique set:", unique_set)
 
